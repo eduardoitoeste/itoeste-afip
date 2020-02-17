@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<loginTicketResponse version="1.0">
+    <header>
+        <source>CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</source>
+        <destination>SERIALNUMBER=CUIT 27370115821, CN=pruebas</destination>
+        <uniqueId>3948849594</uniqueId>
+        <generationTime>2018-08-06T12:30:54.458-03:00</generationTime>
+        <expirationTime>2018-08-07T00:30:54.458-03:00</expirationTime>
+    </header>
+    <credentials>
+        <token>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8c3NvIHZlcnNpb249IjIuMCI+CiAgICA8aWQgc3JjPSJDTj13c2FhaG9tbywgTz1BRklQLCBDPUFSLCBTRVJJQUxOVU1CRVI9Q1VJVCAzMzY5MzQ1MDIzOSIgZHN0PSJDTj13c2ZlLCBPPUFGSVAsIEM9QVIiIHVuaXF1ZV9pZD0iMTY2NTQzMzcyOSIgZ2VuX3RpbWU9IjE1MzM1NjkzOTQiIGV4cF90aW1lPSIxNTMzNjEyNjU0Ii8+CiAgICA8b3BlcmF0aW9uIHR5cGU9ImxvZ2luIiB2YWx1ZT0iZ3JhbnRlZCI+CiAgICAgICAgPGxvZ2luIGVudGl0eT0iMzM2OTM0NTAyMzkiIHNlcnZpY2U9IndzZmUiIHVpZD0iU0VSSUFMTlVNQkVSPUNVSVQgMjczNzAxMTU4MjEsIENOPXBydWViYXMiIGF1dGhtZXRob2Q9ImNtcyIgcmVnbWV0aG9kPSIyMiI+CiAgICAgICAgICAgIDxyZWxhdGlvbnM+CiAgICAgICAgICAgICAgICA8cmVsYXRpb24ga2V5PSIzMzcxNTUxMjk2OSIgcmVsdHlwZT0iNCIvPgogICAgICAgICAgICA8L3JlbGF0aW9ucz4KICAgICAgICA8L2xvZ2luPgogICAgPC9vcGVyYXRpb24+Cjwvc3NvPgo=</token>
+        <sign>Ti/cIUBBj2+jkX9N7W3Abi1GpvHTWidFTZ5cQIyxwc/OQJ5AXCfPjiG/eLPJDDqRqGtNcQQdOfMHC+yGtcoekJXUplCJpXfMzDKXMUIbVNzjuye/RsihqV0AqkpqqIwYHkQAqj4IIH+MARzFGFQk8N/cv4UhrVW9HY6BCt9/0uM=</sign>
+    </credentials>
+</loginTicketResponse>

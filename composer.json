@@ -1,0 +1,18 @@
+{
+    "name": "itoeste/afip",
+    "description": "facturacion electronica afip",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "eduardo",
+            "email": "eduardoitoeste@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-4":{
+            "itoeste\\afip\\": "src/"
+        }
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 namespace itoeste\afip;
-class Test {
+class ItoesteAfip {
 	public function say($text)
 	{
 		return $text.' '.env('AFIP_DEV');

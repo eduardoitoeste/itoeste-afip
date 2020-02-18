@@ -15,7 +15,7 @@ class ItoesteAfip{
 	public $SERVICE = 'wsfe';
 
 	public $STORAGE;
-	public $STORAGEDEFAULT = '/afip/';
+	public $STORAGEDEFAULT = 'afip/';
 
 	public $TOKEN;
 	public $SIGN;
@@ -35,14 +35,14 @@ class ItoesteAfip{
 		
 
 		// storage
-		$this->STORAGE = storage_path('app/public').$this->STORAGEDEFAULT;
+		$this->STORAGE = storage_path('app/public').'/';
 
 
 		// certificado
 		if(isset($options['CERT'])){
 			$this->CERT=$this->STORAGE.$options['CERT'];
 		}else{
-			$this->CERT=$this->STORAGE.'cert.crt';
+			$this->CERT=$this->STORAGE.$this->STORAGEDEFAULT.'cert.crt';
 		}
 
 		if(!file_exists($this->CERT)){
@@ -54,67 +54,74 @@ class ItoesteAfip{
 		if(isset($options['KEY'])){
 			$this->PRIVATEKEY=$this->STORAGE.$options['KEY'];
 		}else{
-			$this->PRIVATEKEY=$this->STORAGE.'key.key';
+			$this->PRIVATEKEY=$this->STORAGE.$this->STORAGEDEFAULT.'key.key';
 		}
-
-		if(!file_exists($this->CERT)){
-			throw new Exception("El archivo cert.crt no existe en ".$this->PRIVATEKEY,1);
-		}
-		
-
-		
-		
-
-		$this->PASSPHRASE = 'xxxxx';
-
-		
-
-		
 
 		if(!file_exists($this->PRIVATEKEY)){
-			throw new Exception("El archivo key.key no existe en ".$this->STORAGE , 2);
+			throw new Exception("El archivo key.key no existe en ".$this->PRIVATEKEY , 2);
 		}
 
-		if(!isset($options['TA'])){
-			$this->TA = $this->STORAGE.'TA-wsfe.xml';
-			$this->TATYPE = 'FILE';
-			if(!file_exists($this->TA)){
-				throw new Exception("El archivo TA-wsfe.xml no existe en ".$this->STORAGE , 3);
-			}
-			
+
+		// clave de parseo
+		if(isset($options['PASSPHRASE'])){
+			$this->PASSPHRASE = $options['PASSPHRASE'];
 		}else{
+			$this->PASSPHRASE = 'xxxxx';
+		}
+		
+
+		// TA
+		if(isset($options['TA'])){
 			$this->TA = $options['TA'];
 			$this->TATYPE = 'STRING';
+		}else{
+			$this->TA = $this->STORAGE.$this->STORAGEDEFAULT.'TA-wsfe.xml';
+			$this->TATYPE = 'FILE';
+			if(!file_exists($this->TA)){
+				throw new Exception("El archivo TA-wsfe.xml no existe en ".$this->TA , 3);
+			}
 		}
 
-		
+
+		// CUIT obligatorio
 		if (!isset($options['CUIT'])) {
 			throw new Exception("CUIT es requerido");
 		}else{
 			$this->CUIT  = $options['CUIT'];
 		}
 
-		$this->WSAA_WSDL = $this->STORAGE.'wsaa.wsdl';
+		
+		if(isset($options['WSAA'])){
+			$this->WSAA_WSDL=$this->STORAGE.$options['WSAA'];
+		}else{
+			$this->WSAA_WSDL = $this->STORAGE.$this->STORAGEDEFAULT.'wsaa.wsdl';
+		}
+
 		if(!file_exists($this->WSAA_WSDL)){
 			throw new Exception("El archivo wsaa.wsdl no existe en ".$this->STORAGE, 4);
 		}
 
-		
-
-
-
 		if (env('AFIP_DEV')) {
 			// desarrollo
 			$this->WSAA_URL = 'https://wsaahomo.afip.gov.ar/ws/services/LoginCms';
-			$this->WSDL = $this->STORAGE.'wsfe.wsdl';
+			$this->WSDL = $this->STORAGE.$this->STORAGEDEFAULT.'wsfe.wsdl';
 			$this->URL = 'https://wswhomo.afip.gov.ar/wsfev1/service.asmx';
 			
 		}else{
 			// prod
 			$this->WSAA_URL = 'https://wsaa.afip.gov.ar/ws/services/LoginCms';
-			$this->WSDL = $this->STORAGE.'wsfe-production.wsdl';
+			$this->WSDL = $this->STORAGE.$this->STORAGEDEFAULT.'wsfe-production.wsdl';
 			$this->URL = 'https://servicios1.afip.gov.ar/wsfev1/service.asmx';
 		}
+
+		if(isset($options['WSDL'])){
+			$this->WSDL=$this->STORAGE.$options['WSDL'];
+		}
+
+		if(!file_exists($this->WSDL)){
+			throw new Exception("El archivo wsfe.wsdl no existe en ".$this->STORAGE,6);
+		}
+		
 	}
 
 	public function GetServiceTA($continue = TRUE)
@@ -125,7 +132,7 @@ class ItoesteAfip{
 			}
 			if($this->TATYPE == 'FILE'){
 				if(!file_exists($this->TA)){
-					throw new Exception("El archivo TA-wsfe.xml no existe en ".$this->STORAGE , 5);
+					throw new Exception("El archivo TA-wsfe.xml no existe en ".$this->TA , 5);
 				}
 				
 				$TA = new \SimpleXMLElement(file_get_contents($this->TA));
@@ -210,7 +217,7 @@ class ItoesteAfip{
 	}
 
 
-	public function GetLastFactura($sales_point, $type)
+	public function GetLastBill($sales_point, $type)
 	{
 		$req = array(
 			'PtoVta' 	=> $sales_point,
@@ -221,7 +228,7 @@ class ItoesteAfip{
 	}
 
 
-	public function CrearFactura($data, $return_response = FALSE)
+	public function CreateNewInvoice($data, $return_response = FALSE)
 	{
 		$req = array(
 			'FeCAEReq' => array(

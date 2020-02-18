@@ -10,7 +10,8 @@
         }
     ],
     "require": {},
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload":{
         "psr-4":{
             "itoeste\\afip\\": "src/"

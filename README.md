@@ -5,7 +5,7 @@
 	<title>Document</title>
 </head>
 <body>
-	options = [
+	$options = [
 		'CUIT'=>int|string:required,
 		'CERT'=>string:optional,
 		'KEY'=>string:optional,
@@ -14,28 +14,27 @@
 		'WSAA'=>string:optional,
 		'WSDL'=>string:optional
 	]
+
+
+	Descripcion | nombre por defecto
 	
-	<br>
+	CUIT : cuit de la empresa | REQUERIDO
 
-	<p>Descripcion | nombre por defecto</p>
+	CERT : archivo .crt que proporciona la afip | cert.crt
 
-	<p>CUIT : cuit de la empresa | REQUERIDO</p>
+	KEY	 : archivo .key que proporciona la afip | key.key
 
-	<p>CERT : archivo .crt que proporciona la afip | cert.crt</p>
+	PASSPHRASE : clave de parseo para encriptacion openssl | xxxxx
 
-	<p>KEY	 : archivo .key que proporciona la afip | key.key</p>
+	TA : archivo .xml que proporciona la afip | TA-wsfe.xml
 
-	<p>PASSPHRASE : clave de parseo para encriptacion openssl | xxxxx</p>
+	WSAA : archivo .wsdl que proporciona la afip | wsaa.wsdl
 
-	<p>TA : archivo .xml que proporciona la afip | TA-wsfe.xml</p>
-
-	<p>WSAA : archivo .wsdl que proporciona la afip | wsaa.wsdl</p>
-
-	<p>WSDL : archivo .wsdl que proporciona la afip | wsfe.wsdl</p>
+	WSDL : archivo .wsdl que proporciona la afip | wsfe.wsdl
 
 
 
-	<p>Por defecto la libreria buscara en el storage de laravel, en la carpeta public/afip</p>
+	Por defecto la libreria buscara en el storage de laravel, en la carpeta public/afip
 </body>
 </html>
 

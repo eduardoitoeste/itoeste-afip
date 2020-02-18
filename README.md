@@ -2,22 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
 </head>
 <body>
-	$options = [
-		'CUIT'=>int|string:required,
-		'CERT'=>string:optional,
-		'KEY'=>string:optional,
-		'PASSPHRASE'=>string:optional,
-		'TA'=>string:optional,
-		'WSAA'=>string:optional,
-		'WSDL'=>string:optional
-	]
-
-
 	Descripcion | nombre por defecto
-	
+
 	CUIT : cuit de la empresa | REQUERIDO
 
 	CERT : archivo .crt que proporciona la afip | cert.crt
@@ -35,6 +23,17 @@
 
 
 	Por defecto la libreria buscara en el storage de laravel, en la carpeta public/afip
+
+
+	$options = [
+		'CUIT'=>int|string:required,
+		'CERT'=>string:optional,
+		'KEY'=>string:optional,
+		'PASSPHRASE'=>string:optional,
+		'TA'=>string:optional,
+		'WSAA'=>string:optional,
+		'WSDL'=>string:optional
+	]
 </body>
 </html>
 

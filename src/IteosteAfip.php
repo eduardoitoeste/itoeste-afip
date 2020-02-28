@@ -27,6 +27,8 @@ class ItoesteAfip{
 	public $WSDL_TEST 		= 'wsfe.wsdl';
 	public $URL_TEST 		= 'https://wswhomo.afip.gov.ar/wsfev1/service.asmx';
 
+	public $TRACONVERT = null;
+
 
 	function __construct($options)
 	{
@@ -166,10 +168,10 @@ class ItoesteAfip{
 		$TRA->header->addChild('generationTime',date('c',date('U')-600));
 		$TRA->header->addChild('expirationTime',date('c',date('U')+600));
 		$TRA->addChild('service',$this->SERVICE);
-		$TRA->asXML($this->STORAGE.'TRA-'.$this->SERVICE.'.xml');
-		// $TRA->asXML($this->STORAGE.'TRA-'.$this->SERVICE.'.tmp');
+		$TRA->asXML($this->STORAGE.$this->STORAGEDEFAULT.'TRA-'.$this->SERVICE.'.xml');
+		$TRA->asXML($this->STORAGE.$this->STORAGEDEFAULT.'TRA-'.$this->SERVICE.'.tmp');
 		
-		$STATUS = openssl_pkcs7_sign($this->STORAGE."TRA-".$this->SERVICE.".xml", $this->STORAGE."TRA-".$this->SERVICE.".tmp","file://".$this->CERT,
+		$STATUS = openssl_pkcs7_sign($this->STORAGE.$this->STORAGEDEFAULT."TRA-".$this->SERVICE.".xml", $this->STORAGE.$this->STORAGEDEFAULT."TRA-".$this->SERVICE.".tmp","file://".$this->CERT,
 			array("file://".$this->PRIVATEKEY, $this->PASSPHRASE),
 			array(),
 			!PKCS7_DETACHED
@@ -180,7 +182,7 @@ class ItoesteAfip{
 		if (!$STATUS) {
 			throw new Exception("No se pudo crear el certificado openssl_pkcs7_sign\n", 8);
 		}
-		$inf = fopen($this->STORAGE."TRA-".$this->SERVICE.".tmp", "r");
+		$inf = fopen($this->STORAGE.$this->STORAGEDEFAULT."TRA-".$this->SERVICE.".tmp", "r");
 		$i = 0;
 		$CMS="";
 		while (!feof($inf)) {
@@ -188,8 +190,8 @@ class ItoesteAfip{
 			if ( $i++ >= 4 ) {$CMS.=$buffer;}
 		}
 		fclose($inf);
-		unlink($this->STORAGE."TRA-".$this->SERVICE.".xml");
-		unlink($this->STORAGE."TRA-".$this->SERVICE.".tmp");
+		unlink($this->STORAGE.$this->STORAGEDEFAULT."TRA-".$this->SERVICE.".xml");
+		unlink($this->STORAGE.$this->STORAGEDEFAULT."TRA-".$this->SERVICE.".tmp");
 		
 		$client = new \SoapClient($this->WSAA_WSDL, array(
 			'soap_version'   => SOAP_1_2,
@@ -206,9 +208,10 @@ class ItoesteAfip{
 		}
 
 		$TA = $results->loginCmsReturn;
-			
+		$this->TRACONVERT = $TA;	
 		$TRA = new \SimpleXMLElement($TA);
-		if($TRA->asXML($this->STORAGE."TA-".$this->SERVICE.".xml")){
+			
+		if($TRA->asXML($this->STORAGE.$this->STORAGEDEFAULT."TA-".$this->SERVICE.".xml")){
 			return true;
 		}else{
 			throw new Exception('Error writing "TA-'.$this->SERVICE.'.xml"', 10);
@@ -226,6 +229,8 @@ class ItoesteAfip{
 
 		return $this->ExecuteRequest('FECompUltimoAutorizado', $req)->CbteNro;
 	}
+
+
 
 
 	public function CreateNewInvoice($data, $return_response = FALSE)
@@ -348,6 +353,11 @@ class ItoesteAfip{
 			$err = is_array($res->Errors->Err) ? $res->Errors->Err[0] : $res->Errors->Err;
 			throw new Exception('('.$err->Code.') '.$err->Msg ."\n");
 		}
+	}
+
+	public function FormatDate($date)
+	{
+		return date_format(\DateTime::CreateFromFormat('Ymd', $date.''), 'Y-m-d');
 	}
 
 }

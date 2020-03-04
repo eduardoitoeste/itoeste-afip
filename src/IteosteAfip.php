@@ -1,4 +1,5 @@
 <?php
+#VERSION 1.0.2
 namespace itoeste\afip;
 use itoeste\afip\TokenAutorization;
 use Exception;
@@ -208,7 +209,8 @@ class ItoesteAfip{
 		}
 
 		$TA = $results->loginCmsReturn;
-		$this->TRACONVERT = $TA;	
+		$this->TRACONVERT = $TA;
+		$this->TA = $TA;
 		$TRA = new \SimpleXMLElement($TA);
 			
 		if($TRA->asXML($this->STORAGE.$this->STORAGEDEFAULT."TA-".$this->SERVICE.".xml")){
